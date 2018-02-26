@@ -2,9 +2,14 @@ class HistoriesController < ApplicationController
   before_action :set_history, only: [:show, :edit, :update, :destroy]
 
   # GET /histories
-  # GET /histories.json
+  # GET /histories.jsoni
+
   def index
     @histories = History.all
+  end
+
+  def list
+    @histories = User.find(session[:user_id]).histories
   end
 
   # GET /histories/1
@@ -25,6 +30,7 @@ class HistoriesController < ApplicationController
   # POST /histories.json
   def create
     @history = History.new(history_params)
+    @history.user = User.find(session[:user_id])
 
     respond_to do |format|
       if @history.save
